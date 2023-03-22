@@ -1,3 +1,4 @@
 # leetcode
-My leetcode solutions
-Language: Java
+My Leetcode Solutions
+<br/>
+```Language: Java```
