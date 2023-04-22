@@ -1,0 +1,1 @@
+If element is even check whether it's half is present in the set otherwise check for it's double. Since we just need to return a boolean answer we can traverse till last just to find a single occurrence.
