@@ -4,14 +4,14 @@ class Solution {
         int[] notPrime = new int[n];
         notPrime[0] = notPrime[1] = 1;
         int count = 0;
-        for (int i = 2; i < n; i++) {
+        for (int i = 2; i < Math.sqrt(n); i++) {
             if (notPrime[i] == 0) {
-                count++;
                 for (int j = 2; i * j < n; j++) {
                     notPrime[i * j] = 1;
                 }
             }
         }
+        for (int i : notPrime) if (i == 0) count++;
         return count;
     }
 }
