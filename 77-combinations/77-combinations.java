@@ -1,6 +1,6 @@
 class Solution {
-    
     public void combinations(int index, int length, int[] nums, List<Integer> ds, List<List<Integer>> res) {
+        if (ds.size() > length) return;
         if (index == nums.length) {
             if (ds.size() == length) res.add(new ArrayList<>(ds));
             return;
