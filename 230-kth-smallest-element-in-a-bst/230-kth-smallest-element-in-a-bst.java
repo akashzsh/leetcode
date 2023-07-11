@@ -1,6 +1,6 @@
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
-        int ans, cnt = 0;
+        int cnt = 0;
         TreeNode curr = root;
         while (curr != null) {
             if (curr.left == null) {
