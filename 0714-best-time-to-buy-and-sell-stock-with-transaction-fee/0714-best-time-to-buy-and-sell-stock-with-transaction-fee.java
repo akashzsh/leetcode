@@ -1,11 +1,13 @@
 class Solution {
     public int maxProfit(int[] prices, int fee) {
         int n = prices.length;
-        int[][] dp = new int[n + 1][2];
+        int[] prev = new int[2];
+        int[] curr = new int[2];
         for (int day = n - 1; day >= 0; day--) {
-            dp[day][1] = Math.max(-prices[day] + dp[day + 1][0], dp[day + 1][1]);
-            dp[day][0] = Math.max(prices[day] - fee + dp[day + 1][1], dp[day + 1][0]);
+            curr[1] = Math.max(-prices[day] + prev[0], prev[1]);
+            curr[0] = Math.max(prices[day] - fee + prev[1], prev[0]);
+            prev = curr.clone();
         }
-        return dp[0][1];
+        return prev[1];
     }
 }
