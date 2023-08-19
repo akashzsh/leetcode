@@ -1,55 +1,71 @@
-class Pair {
-    int v;
-    int dist;
-    Pair (int dist, int v) {
-        this.v = v;
-        this.dist = dist;
+class DisjointSet {
+    ArrayList<Integer> parent = new ArrayList<>();
+    int count;
+    
+    DisjointSet(int n) {
+        for (int i = 0; i < n; i++) {
+            parent.add(i);
+        }
+        count = n;
+    }
+    
+    int findUParent(int node) {
+        if (node == parent.get(node)) return node;
+        int ulp = findUParent(parent.get(node));
+        parent.set(node, ulp);
+        return parent.get(node);
+    }
+    
+    boolean unionBySize(int u, int v) {
+        int ulpu = findUParent(u), ulpv = findUParent(v);
+        if (ulpu != ulpv) {
+            count--;
+            parent.set(ulpu, ulpv);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
 class Solution {
-    public int findDistance(ArrayList<ArrayList<Pair>> adj, int S, int D) {
-        int V = adj.size();
-        int[] dist = new int[V];
-        for (int i = 0; i < V; i++) dist[i] = (int)(1e9);
-        dist[S] = 0;
-        PriorityQueue<Pair> pq = new PriorityQueue<>((x, y) -> x.dist - y.dist);
-        pq.offer(new Pair(0, S));
-        while (!pq.isEmpty()) {
-            int currNode = pq.peek().v;
-            int dis = pq.peek().dist;
-            pq.poll();
-            if (-dis > dist[currNode]) continue;
-            for (Pair i : adj.get(currNode)) {
-                int v = i.v;
-                int d = i.dist;
-                if (currNode == S && v == D) continue;
-                if (Math.max(dist[currNode], d) < dist[v]) {
-                    dist[v] = Math.max(dist[currNode], d);
-                    pq.offer(new Pair(-dist[v], v));
-                }
-            }
-        }
-        return dist[D];
-    }
-    
     public List<List<Integer>> findCriticalAndPseudoCriticalEdges(int n, int[][] edges) {
         int len = edges.length;
-        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
-        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        HashMap<int[], Integer> index = new HashMap<>();
+        for (int i = 0; i < len; i++) index.put(edges[i], i);
+        Arrays.sort(edges, (e1, e2) -> Integer.compare(e1[2], e2[2]));
+        int minCost = MSTcost(n, edges, null, null);
+        List<Integer> critical = new ArrayList<>();
+        List<Integer> pseudo = new ArrayList<>();
         for (int i = 0; i < len; i++) {
-            int u = edges[i][0], v = edges[i][1], w = edges[i][2];
-            adj.get(u).add(new Pair(w, v));
-            adj.get(v).add(new Pair(w, u));
+            int[] curEdge = edges[i];
+            int curEdgeIndex = index.get(curEdge);
+            int withoutThis = MSTcost(n, edges, null, curEdge);
+            if (withoutThis > minCost) {
+                critical.add(curEdgeIndex);
+            } else {
+                int withThis = MSTcost(n, edges, curEdge, null);
+                if (withThis == minCost) pseudo.add(curEdgeIndex);
+            }
         }
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i < 2; i++) res.add(new ArrayList<>());
+        return Arrays.asList(critical, pseudo);
+    }
+    
+    private int MSTcost(int n, int[][] edges, int[] pick, int[] skip) {
+        int cost = 0;
+        DisjointSet ds = new DisjointSet(n);
+        int len = edges.length;
+        
+        if (pick != null) {
+            ds.unionBySize(pick[0], pick[1]);
+            cost += pick[2];
+        }
+        
         for (int i = 0; i < len; i++) {
-            int u = edges[i][0], v = edges[i][1], w = edges[i][2];
-            int m = findDistance(adj, u, v);
-            if (w < m) res.get(0).add(i);
-            else if (w == m) res.get(1).add(i);
+            if (edges[i] != skip && ds.unionBySize(edges[i][0], edges[i][1])) {
+                cost += edges[i][2];
+            }
         }
-        return res;
+        return ds.count == 1 ? cost : (int)(1e9);
     }
 }
