@@ -1,14 +1,12 @@
 class Solution {
-    public String sortSentence(String s) {
-        HashMap<Character, String> mapping = new HashMap<>();
-        String[] result = s.split(" ");
-        for (int i = 0; i < result.length; i++) {
-            mapping.put(result[i].charAt(result[i].length() - 1), result[i].substring(0, result[i].length() - 1));
+    public String sortSentence(String str) {
+        String[] words = str.split(" ");
+        String[] ans = new String[words.length];
+        for (String s : words) {
+            int len = s.length();
+            int index = Character.getNumericValue(s.charAt(len - 1)) - 1;
+            ans[index] = s.substring(0, len - 1);
         }
-        s = "";
-        for (int i = 1; i <= result.length; i++, s += ' ') {
-            s += mapping.get(Character.forDigit(i, 10));
-        }
-        return s.substring(0, s.length() - 1);
+        return String.join(" ", ans);
     }
 }
