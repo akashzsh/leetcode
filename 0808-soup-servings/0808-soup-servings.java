@@ -12,7 +12,7 @@ class Solution {
     }
     
     public double soupServings(int n) {
-        if (n >= 6000) return 1;
+        if (n >= 9000) return 1;
         double[][] dp = new double[n + 1][n + 1];
         for (double[] i : dp) Arrays.fill(i, -1.0);
         ArrayList<int[]> op = new ArrayList<>();
