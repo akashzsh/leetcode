@@ -1,23 +1,17 @@
 class Solution {
-    int mod = 1000000007;
-    
-    private int move(int idx, int steps, int len, int[][] dp) {
-        if (idx < 0 || idx >= len) return 0;
-        if (steps == 0) {
-            if (idx == 0) return 1;
-            return 0;
+    public int numWays(int steps, int n) {
+        int mod = 1000000007;
+        n = Math.min(n, steps);
+        int[][] dp = new int[n][steps + 1];
+        dp[0][0] = 1;
+        for (int j = 1; j <= steps; j++) {
+            for (int idx = n - 1; idx >= 0; idx--) {
+                int ans = dp[idx][j - 1];
+                if (idx > 0) ans = (ans + dp[idx - 1][j - 1]) % mod;
+                if (idx < n - 1) ans = (ans + dp[idx + 1][j - 1]) % mod;
+                dp[idx][j] = ans;
+            }
         }
-        if (dp[idx][steps] != -1) return dp[idx][steps];
-        int ans = move(idx, steps - 1, len, dp);
-        ans = (ans + move(idx - 1, steps - 1, len, dp)) % mod;
-        ans = (ans + move(idx + 1, steps - 1, len, dp)) % mod;
-        return dp[idx][steps] = ans;
-    }
-    
-    public int numWays(int steps, int arrLen) {
-        arrLen = Math.min(arrLen, steps);
-        int[][] dp = new int[arrLen][steps + 1];
-        for (int[] arr : dp) Arrays.fill(arr, -1);
-        return move(0, steps, arrLen, dp);
+        return dp[0][steps];
     }
 }
