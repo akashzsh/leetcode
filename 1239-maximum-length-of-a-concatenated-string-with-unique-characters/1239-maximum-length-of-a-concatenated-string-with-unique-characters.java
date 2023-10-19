@@ -1,4 +1,6 @@
 class Solution {
+    HashMap<String, Integer> dp = new HashMap<>();
+    
     private boolean hasDuplicate(String s, String t) {
         int[] freq = new int[26];
         for (char ch : s.toCharArray()) {
@@ -16,6 +18,8 @@ class Solution {
             return temp.length();
         }
         
+        if (dp.containsKey(temp)) return dp.get(temp);
+        
         int pick = 0, notPick = 0;
         if (hasDuplicate(arr.get(i), temp)) {
             notPick = solve(i + 1, arr, temp, n);
@@ -23,6 +27,7 @@ class Solution {
             notPick = solve(i + 1, arr, temp, n);
             pick = solve(i + 1, arr, temp + arr.get(i), n);
         }
+        dp.put(temp, Math.max(pick, notPick));
         return Math.max(pick, notPick);
     }
     
