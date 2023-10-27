@@ -12,7 +12,7 @@ class Solution {
             return dp[i][j] = isPalindrome(s, i + 1, j - 1);
         }
         
-        return 0;
+        return dp[i][j] = 0;
     }
     
     public String longestPalindrome(String s) {
