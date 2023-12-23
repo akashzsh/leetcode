@@ -1,17 +1,18 @@
 class Solution {
-    private int f(int[] nums, int low, int high) {
-        int xr = 0;
-        for (int i = low; i <= high; i++) {
-            xr = xr ^ nums[i];
-        }
-        return xr;
-    }
-    
     public int[] xorQueries(int[] arr, int[][] queries) {
-        int n = queries.length;
+        int n = arr.length;
+        for (int i = 1; i < n; i++) {
+            arr[i] = arr[i] ^ arr[i - 1];
+        }
+        n = queries.length;
         int[] res = new int[n];
         for (int i = 0; i < n; i++) {
-            res[i] = f(arr, queries[i][0], queries[i][1]);
+            int start = queries[i][0], end = queries[i][1];
+            if (start == 0) {
+                res[i] = arr[end];
+            } else if (start >= 1) {
+                res[i] = arr[start - 1] ^ arr[end];
+            }
         }
         return res;
     }
