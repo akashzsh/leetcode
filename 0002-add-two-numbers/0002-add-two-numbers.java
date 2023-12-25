@@ -3,7 +3,7 @@ class Solution {
         ListNode dummy = new ListNode();
         ListNode start = dummy;
         
-        int sum = 0, carry = 0;
+        int carry = 0;
         while (l1 != null || l2 != null || carry != 0) {
             int res = l1 == null ? 0 : l1.val;
             res += l2 == null ? 0 : l2.val;
