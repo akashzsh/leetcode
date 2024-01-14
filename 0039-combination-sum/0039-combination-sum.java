@@ -1,19 +1,18 @@
 class Solution {
     public void generate(int idx, int[] nums, int target, ArrayList<Integer> vec, List<List<Integer>> res) {
-        if (target < 0) {
-            return;
-        }
-        if (target == 0) {
-            res.add(new ArrayList<>(vec));
-            return;
-        }
         if (idx == nums.length) {
+            if (target == 0) {
+                res.add(new ArrayList<>(vec));
+            }
             return;
         }
         
-        vec.add(nums[idx]);
-        generate(idx, nums, target - nums[idx], vec, res);
-        vec.remove(vec.size() - 1);
+        if (nums[idx] <= target) {
+            vec.add(nums[idx]);
+            generate(idx, nums, target - nums[idx], vec, res);
+            vec.remove(vec.size() - 1);
+        }
+        
         generate(idx + 1, nums, target, vec, res);
     }
     
