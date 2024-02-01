@@ -1,35 +1,30 @@
 class MedianFinder {
-    PriorityQueue<Integer> left = new PriorityQueue<>((a, b) -> b - a);
-    PriorityQueue<Integer> right = new PriorityQueue<>();
+    PriorityQueue<Integer> leftPartition;
+    PriorityQueue<Integer> rightPartition;
     
-    public MedianFinder() {}
+    public MedianFinder() {
+        leftPartition = new PriorityQueue<>((a, b) -> b - a);
+        rightPartition = new PriorityQueue<>();
+    }
     
     public void addNum(int num) {
-        if (left.size() == 0 || left.peek() > num) {
-            left.add(num);
+        if (leftPartition.size() == 0 || leftPartition.peek() > num) {
+            leftPartition.add(num);
         } else {
-            right.add(num);
+            rightPartition.add(num);
         }
         
-        if (Math.abs(left.size() - right.size()) > 1) {
-            right.add(left.poll());
-        } else if (left.size() < right.size()) {
-            left.add(right.poll());
+        if (Math.abs(leftPartition.size() - rightPartition.size()) > 1) {
+            rightPartition.add(leftPartition.poll());
+        } else if (leftPartition.size() < rightPartition.size()) {
+            leftPartition.add(rightPartition.poll());
         }
     }
     
     public double findMedian() {
-        if (left.size() == right.size()) {
-            return (double)(left.peek() + right.peek()) / 2;
-        } else {
-            return left.peek();
+        if (leftPartition.size() == rightPartition.size()) {
+            return (double)(leftPartition.peek() + rightPartition.peek()) / 2.0;
         }
+        return (double)(leftPartition.peek());
     }
 }
-
-/**
- * Your MedianFinder object will be instantiated and called as such:
- * MedianFinder obj = new MedianFinder();
- * obj.addNum(num);
- * double param_2 = obj.findMedian();
- */
