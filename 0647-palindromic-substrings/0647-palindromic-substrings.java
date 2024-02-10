@@ -1,23 +1,20 @@
 class Solution {
-    public int countSubstrings(String s) {
-        int n = s.length(), cnt = 0;
-        boolean[][] dp = new boolean[n][n];
-        // Take "len" length substring
-        for (int len = 1; len <= n; len++) {
-            // Start index
-            for (int i = 0; i + len - 1 < n; i++) {
-                // End index
-                int j = i + len - 1;
-                if (i == j) {
-                    dp[i][j] = true;
-                } else if (i + 1 == j) {
-                    dp[i][j] = s.charAt(i) == s.charAt(j);
-                } else {
-                    dp[i][j] = s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1];
-                }
-                cnt += dp[i][j] ? 1 : 0;
-            }
+    public int check(int center1, int center2, String s, int n) {
+        int cnt = 0;
+        while (center1 >= 0 && center2 < n && s.charAt(center1) == s.charAt(center2)) {
+            cnt++;
+            center1--;
+            center2++;
         }
         return cnt;
+    }
+    
+    public int countSubstrings(String s) {
+        int n = s.length(), res = 0;
+        for (int i = 0; i < n; i++) {
+            res += check(i, i, s, n);
+            res += check(i, i + 1, s, n);
+        }
+        return res;
     }
 }
