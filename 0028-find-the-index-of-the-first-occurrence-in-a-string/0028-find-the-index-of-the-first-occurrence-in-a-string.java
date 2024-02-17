@@ -24,6 +24,7 @@ class Solution {
         
         int[] LPS = new int[P];
         calculateLPS(pattern, LPS);
+        System.out.println(Arrays.toString(LPS));
         
         int i = 0, j = 0;
         while (i < T) {
