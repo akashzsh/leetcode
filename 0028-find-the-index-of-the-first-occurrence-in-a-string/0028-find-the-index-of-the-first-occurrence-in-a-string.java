@@ -1,47 +1,50 @@
-// Z Algorithm for Pattern Searching
+// Knuth–Morris–Pratt Algorithm
 
 class Solution {
-    public void calculateZ(String s, int[] z, int n) {
-        int l = 0, r = 0;
-        for (int k = 1; k < n; k++) {
-            if (k > r) {
-                l = k;
-                r = k;
-                while (r < n && s.charAt(r) == s.charAt(r - l)) {
-                    r++;
-                }
-                z[k] = r - l;
-                r--;
+    public void calculateLPS(String pattern, int[] LPS) {
+        int idx = 0, i = 1;
+        while (i < LPS.length) {
+            if (pattern.charAt(idx) == pattern.charAt(i)) {
+                LPS[i] = idx + 1;
+                idx++;
+                i++;
             } else {
-                int k1 = k - l;
-                if (z[k1] < r - k + 1) {
-                    z[k] = z[k1];
+                if (idx != 0) {
+                    idx = LPS[idx - 1];
                 } else {
-                    l = k;
-                    while (r < n && s.charAt(r) == s.charAt(r - l)) {
-                        r++;
-                    }
-                    z[k] = r - l;
-                    r--;
+                    LPS[i] = 0;
+                    i++;
                 }
             }
         }
     }
     
-    public int strStr(String haystack, String needle) {
-        int N = needle.length();
-        String s = needle + "$" + haystack;
+    public int strStr(String text, String pattern) {
+        int T = text.length(), P = pattern.length();
         
-        int S = s.length();
-        int[] z = new int[S];
-        calculateZ(s, z, S);
+        int[] LPS = new int[P];
+        calculateLPS(pattern, LPS);
         
-        for (int i = 0; i < S; i++) {
-            if (z[i] == N) {
-                return i - N - 1;
+        int i = 0, j = 0;
+        while (i < T) {
+            if (j < P && text.charAt(i) == pattern.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                if (j == P) {
+                    return i - P;
+                }
+                if (j != 0) {
+                    j = LPS[j - 1];
+                } else {
+                    i++;
+                }
             }
         }
         
+        if (j == P) {
+            return i - P;
+        }
         return -1;
     }
 }
