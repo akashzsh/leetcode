@@ -1,43 +1,47 @@
+// Z Algorithm for Pattern Searching
+
 class Solution {
-    public int rabinKarp(String text, String pattern) {
-        int T = text.length(), P = pattern.length(), H = 1, d = 256;
-        int tHash = 0, pHash = 0, prime = 101;
-
-        for (int i = 0; i < P - 1; i++) {
-            H = (d * H) % prime;
-        }
-
-        for (int i = 0; i < P; i++) {
-            tHash = (d * tHash + text.charAt(i)) % prime;
-            pHash = (d * pHash + pattern.charAt(i)) % prime;
-        }
-
-        for (int i = 0, j = 0; i <= T - P; i++) {
-            if (tHash == pHash) {
-                for (j = 0; j < P; j++) {
-                    if (text.charAt(i + j) != pattern.charAt(j)) {
-                        break;
+    public void calculateZ(String s, int[] z, int n) {
+        int l = 0, r = 0;
+        for (int k = 1; k < n; k++) {
+            if (k > r) {
+                l = k;
+                r = k;
+                while (r < n && s.charAt(r) == s.charAt(r - l)) {
+                    r++;
+                }
+                z[k] = r - l;
+                r--;
+            } else {
+                int k1 = k - l;
+                if (z[k1] < r - k + 1) {
+                    z[k] = z[k1];
+                } else {
+                    l = k;
+                    while (r < n && s.charAt(r) == s.charAt(r - l)) {
+                        r++;
                     }
-                }
-                if (j == P) {
-                    return i;
-                }
-            }
-            if (i < T - P) {
-                tHash = (d * (tHash - text.charAt(i) * H) + text.charAt(i + P)) % prime;
-                if (tHash < 0) {
-                    tHash += prime;
+                    z[k] = r - l;
+                    r--;
                 }
             }
         }
-
-        return -1;
     }
-
+    
     public int strStr(String haystack, String needle) {
-        if (needle.length() > haystack.length()) {
-            return -1;
+        int N = needle.length();
+        String s = needle + "$" + haystack;
+        
+        int S = s.length();
+        int[] z = new int[S];
+        calculateZ(s, z, S);
+        
+        for (int i = 0; i < S; i++) {
+            if (z[i] == N) {
+                return i - N - 1;
+            }
         }
-        return rabinKarp(haystack, needle);
+        
+        return -1;
     }
 }
