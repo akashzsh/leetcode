@@ -58,8 +58,6 @@ class Solution {
                 i++;
             }
             
-            System.out.println(sameTimePeople);
-            
             for (int j : sameTimePeople) {
                 if (ds.findUParent(j) != ds.findUParent(0)) {
                     ds.reset(j);
