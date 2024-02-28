@@ -1,86 +1,53 @@
-// Morris Traversal
-
-class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        TreeNode cur = root;
-        
-        while (cur != null) {
-            if (cur.left == null) {
-                res.add(cur.val);
-                cur = cur.right;
-            } else {
-                TreeNode prev = cur.left;
-                while (prev.right != null && prev.right != cur) {
-                    prev = prev.right;
-                }
-                if (prev.right == null) {
-                    prev.right = cur;
-                    cur = cur.left;
-                } else {
-                    prev.right = null;
-                    res.add(cur.val);
-                    cur = cur.right;
-                }
-            }
-        }
-        
-        return res;
-    }
-}
-
-
-// Iterative
-
-/*
-class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        
-        if (root == null) {
-            return res;
-        }
-        
-        Stack<TreeNode> stk = new Stack<>();
-        TreeNode cur = root;
-        
-        while (true) {
-            if (cur != null) {
-                stk.push(cur);
-                cur = cur.left;
-            } else {
-                if (stk.isEmpty()) {
-                    break;
-                }
-                cur = stk.pop();
-                res.add(cur.val);
-                cur = cur.right;
-            }
-        }
-        
-        return res;
-    }
-}
-
-*/
-
-// Recursion
-
-/*
-class Solution {
-    public void inorder(TreeNode root, List<Integer> res) {
-        if (root == null) {
-            return;
-        }
-        inorder(root.left, res);
-        res.add(root.val);
-        inorder(root.right, res);
-    }
+class Pair {
+    TreeNode node;
+    int number;
     
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        inorder(root, res);
-        return res;
+    Pair (TreeNode node, int number) {
+        this.node = node;
+        this.number = number;
     }
 }
-*/
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> inorder = new ArrayList<>();
+        // List<Integer> preorder = new ArrayList<>();
+        // List<Integer> postorder = new ArrayList<>();
+        
+        if (root == null) {
+            return inorder;
+        }
+        
+        Stack<Pair> stk = new Stack<>();
+        stk.push(new Pair(root, 1));
+        
+        while (!stk.isEmpty()) {
+            
+            Pair cur = stk.pop();
+            
+            if (cur.number == 1) {    
+                // preorder.add(cur.node.val);
+                cur.number++;
+                stk.push(cur);
+                
+                if (cur.node.left != null) {
+                    stk.push(new Pair(cur.node.left, 1));
+                }
+                
+            } else if (cur.number == 2) {
+                inorder.add(cur.node.val);
+                cur.number++;
+                stk.push(cur);
+                
+                if (cur.node.right != null) {
+                    stk.push(new Pair(cur.node.right, 1));
+                }
+                
+            } else if (cur.number == 3) {
+                // postorder.add(cur.node.val);
+            }
+        }
+        
+        return inorder;
+    }
+}
