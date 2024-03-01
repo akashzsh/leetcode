@@ -1,5 +1,3 @@
-// Brute force - first attempt by self
-
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
