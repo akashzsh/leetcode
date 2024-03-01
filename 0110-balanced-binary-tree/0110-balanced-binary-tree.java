@@ -1,23 +1,29 @@
 class Solution {
-    public int traverse(TreeNode node, boolean[] res) {
+    public int traverse(TreeNode node) {
         if (node == null) {
             return 0;
         }
         
-        int left = traverse(node.left, res);
-        int right = traverse(node.right, res);
+        int left = traverse(node.left);
+        
+        if (left == -1) {
+            return -1;
+        }
+        
+        int right = traverse(node.right);
+        
+        if (right == -1) {
+            return -1;
+        }
         
         if (Math.abs(left - right) > 1) {
-            res[0] = false;
+            return -1;
         }
         
         return 1 + Math.max(left, right);
     }
     
     public boolean isBalanced(TreeNode root) {
-        boolean[] res = new boolean[1];
-        res[0] = true;
-        traverse(root, res);
-        return res[0];
+        return traverse(root) != -1;
     }
 }
