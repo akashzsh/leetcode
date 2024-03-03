@@ -7,10 +7,11 @@ class StockSpanner {
     
     public int next(int price) {
         int span = 1;
-        while (!stk.isEmpty() && price >= stk.peek()[0]) {
-            span += stk.peek()[1];
-            stk.pop();
+        
+        while (!stk.isEmpty() && stk.peek()[0] <= price) {
+            span = span + stk.pop()[1];
         }
+        
         stk.push(new int[]{price, span});
         return span;
     }
