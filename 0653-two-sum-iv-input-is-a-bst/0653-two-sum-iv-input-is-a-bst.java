@@ -1,31 +1,52 @@
+class BSTIterator {
+    Stack<TreeNode> stk;
+    boolean reverse;
+    
+    BSTIterator(TreeNode root, boolean reverse) {
+        stk = new Stack<>();
+        this.reverse = reverse;
+        pushAllNodes(root);
+    }
+    
+    void pushAllNodes(TreeNode root) {
+        while (root != null) {
+            stk.push(root);
+            if (this.reverse) {
+                root = root.right;
+            } else {
+                root = root.left;
+            }
+        }
+    }
+    
+    int next() {
+        TreeNode cur = stk.pop();
+        if (this.reverse) {
+            pushAllNodes(cur.left);
+        } else {
+            pushAllNodes(cur.right);
+        }
+        
+        return cur.val;
+    }
+}
+
 class Solution {
     public boolean findTarget(TreeNode root, int k) {
-        HashSet<Integer> set = new HashSet<>();
-        TreeNode cur = root;
+        BSTIterator i = new BSTIterator(root, false);
+        BSTIterator j = new BSTIterator(root, true);
         
-        while (cur != null) {
-            if (cur.left == null) {
-                if (set.contains(k - cur.val)) {
-                    return true;
-                }
-                set.add(cur.val);
-                cur = cur.right;
+        int low = i.next(), high = j.next();
+        
+        while (low < high) {
+            if (low + high == k) {
+                return true;
+            }
+            
+            if (low + high < k) {
+                low = i.next();
             } else {
-                TreeNode prev = cur.left;
-                while (prev.right != null && prev.right != cur) {
-                    prev = prev.right;
-                }
-                if (prev.right == null) {
-                    prev.right = cur;
-                    cur = cur.left;
-                } else {
-                    prev.right = null;
-                    if (set.contains(k - cur.val)) {
-                        return true;
-                    }
-                    set.add(cur.val);
-                    cur = cur.right;
-                }
+                high = j.next();
             }
         }
         
