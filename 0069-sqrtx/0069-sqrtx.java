@@ -1,12 +1,20 @@
 class Solution {
     public int mySqrt(int x) {
-        double guess = x / 2.0;
-        double epsilon = 1e-1;
+        double low = 0, high = x, epsilon = 1e-6;
         
-        while (Math.abs(guess * guess - x) > epsilon) {
-            guess = 0.5 * (guess + x / guess);
+        while (high - low > epsilon) {
+            double mid = low + (high - low) / 2;
+            double guess = mid * mid;
+            
+            if (guess == x) {
+                return (int) mid;
+            } else if (guess > x) {
+                high = mid;
+            } else {
+                low = mid;
+            }
         }
         
-        return (int) guess;
+        return (int) (high);
     }
 }
