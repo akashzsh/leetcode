@@ -1,5 +1,40 @@
 class Solution {
     public boolean checkValidString(String s) {
+        int open = 0, close = 0, N = s.length();
+        
+        for (int i = 0; i < N; i++) {
+            
+            if (s.charAt(i) == '(' || s.charAt(i) == '*') {
+                open++;
+            }
+            
+            if (s.charAt(i) == ')') {
+                open--;
+            }
+            
+            if (s.charAt(N - 1 - i) == ')' || s.charAt(N - 1 - i) == '*') {
+                close++;
+            }
+            
+            if (s.charAt(N - 1 - i) == '(') {
+                close--;
+            }
+            
+            if (open < 0 || close < 0) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
+
+// two stacks
+
+/*
+
+class Solution {
+    public boolean checkValidString(String s) {
         Stack<Integer> stk = new Stack<>();
         Stack<Integer> stock = new Stack<>();
         
@@ -41,3 +76,5 @@ class Solution {
         return stk.isEmpty();
     }
 }
+
+*/
