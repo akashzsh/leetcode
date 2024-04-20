@@ -29,15 +29,6 @@ class Solution {
             }
         }
         
-        int[][] res = new int[vec.size()][4];
-        
-        for (int i = 0; i < res.length; i++) {
-            res[i][0] = vec.get(i)[0];
-            res[i][1] = vec.get(i)[1];
-            res[i][2] = vec.get(i)[2];
-            res[i][3] = vec.get(i)[3];
-        }
-        
-        return res;
+        return vec.toArray(new int[vec.size()][]);
     }
 }
