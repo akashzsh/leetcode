@@ -42,9 +42,7 @@ class Solution {
         DisjointSet ds = new DisjointSet(n);
         
         for (int[] edge : edges) {
-            if (ds.findUParent(edge[0]) != ds.findUParent(edge[1])) {
-                ds.unionByRank(edge[0], edge[1]);
-            }
+            ds.unionByRank(edge[0], edge[1]);
         }
         
         return ds.findUParent(source) == ds.findUParent(destination);
