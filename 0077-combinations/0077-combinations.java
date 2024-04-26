@@ -1,7 +1,11 @@
 class Solution {
     public void f(int i, List<List<Integer>> res, List<Integer> ds, int k, int n) {
-        if (i >= n) {
-            if (ds.size() == k) res.add(new ArrayList<>(ds));
+        if (ds.size() == k) {
+            res.add(new ArrayList<>(ds));
+            return;
+        }
+        
+        if (i == n) {
             return;
         }
         
