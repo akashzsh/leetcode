@@ -1,3 +1,37 @@
+// Tabulation
+
+class Solution {
+    public int distance(int i, int j, int N) {
+        int clock = Math.abs(i - j);
+        int aClock = N - clock;
+        return Math.min(clock, aClock);
+    }
+    
+    public int findRotateSteps(String ring, String key) {
+        int R = ring.length(), K = key.length();
+        
+        int[][] dp = new int[R][K + 1];
+        
+        for (int keyIdx = K - 1; keyIdx >= 0; keyIdx--) {
+            for (int ringIdx = 0; ringIdx < R; ringIdx++) {
+                int res = 1_000_000_000;
+                for (int i = 0; i < R; i++) {
+                    if (ring.charAt(i) == key.charAt(keyIdx)) {
+                        int cur = distance(ringIdx, i, R) + 1 + dp[i][keyIdx + 1];
+                        res = Math.min(res, cur);
+                    }
+                }
+                dp[ringIdx][keyIdx] = res;
+            }
+        }
+        
+        return dp[0][0];
+    }
+}
+
+// Recursion + Memoization
+
+/*
 class Solution {
     public int distance(int i, int j, int N) {
         int clock = Math.abs(i - j);
@@ -36,3 +70,4 @@ class Solution {
         return f(0, 0, ring, key, ring.length(), dp);
     }
 }
+*/
