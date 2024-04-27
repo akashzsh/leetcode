@@ -1,5 +1,6 @@
 // Space Optimization
 
+/*
 class Solution {
     public int distance(int i, int j, int N) {
         int clock = Math.abs(i - j);
@@ -29,6 +30,7 @@ class Solution {
         return prev[0];
     }
 }
+*/
 
 // Tabulation
 
@@ -65,7 +67,6 @@ class Solution {
 
 // Recursion + Memoization
 
-/*
 class Solution {
     public int distance(int i, int j, int N) {
         int clock = Math.abs(i - j);
@@ -104,4 +105,3 @@ class Solution {
         return f(0, 0, ring, key, ring.length(), dp);
     }
 }
-*/
