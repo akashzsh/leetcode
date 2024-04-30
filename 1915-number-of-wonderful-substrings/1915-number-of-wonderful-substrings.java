@@ -1,11 +1,11 @@
 class Solution {
     public long wonderfulSubstrings(String word) {
-        HashMap<Long, Long> map = new HashMap<>();
-        map.put(0l, 1l);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
         
         long result = 0;
         
-        long xor = 0;
+        int xor = 0;
         
         for (char ch : word.toCharArray()) {
             
@@ -14,16 +14,16 @@ class Solution {
             xor = xor ^ (1 << shift);
             
             // check for substrings with only even freq letters
-            result += map.getOrDefault(xor, 0l);
+            result += map.getOrDefault(xor, 0);
             
             for (char x = 'a'; x <= 'j'; x++) {
                 shift = x - 'a';
                 
                 // check for substrings with one odd number of letter
-                result += map.getOrDefault(xor ^ (1 << shift), 0l);
+                result += map.getOrDefault(xor ^ (1 << shift), 0);
             }
             
-            map.put(xor, map.getOrDefault(xor, 0l) + 1);
+            map.put(xor, map.getOrDefault(xor, 0) + 1);
         }
         
         return result;
