@@ -32,6 +32,6 @@ public:
             return is_neg ? INT_MIN : INT_MAX;
         }
         
-        return is_neg ? static_cast<int>(-res) : static_cast<int>(res);
+        return is_neg ? (int)(-res) : (int)(res);
     }
 };
