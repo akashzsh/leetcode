@@ -14,6 +14,7 @@ public:
     }
     
     ListNode* removeNodes(ListNode* head) {
+        ios_base::sync_with_stdio(0);
         head = reverse(head);
         
         ListNode* list = new ListNode(-1);
