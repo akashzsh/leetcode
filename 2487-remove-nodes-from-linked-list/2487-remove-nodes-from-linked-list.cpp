@@ -1,47 +1,40 @@
 class Solution {
 public:
-    void nge(vector<int>& nums, int& N, vector<int>& res) {
-        stack<int> stk;
+    ListNode* reverse(ListNode* cur) {
+        ListNode* prev = nullptr;
         
-        for (int i = N - 1; i >= 0; i--) {
-            while (!stk.empty() && nums[stk.top()] <= nums[i]) {
-                stk.pop();
-            }
-            
-            if (stk.empty()) {
-                res[i] = -1;
-            } else {
-                res[i] = stk.top();
-            }
-            
-            stk.push(i);
+        while (cur != NULL) {
+            ListNode* front = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = front;
         }
+        
+        return prev;
     }
     
     ListNode* removeNodes(ListNode* head) {
-        vector<int> nums;
+        head = reverse(head);
         
-        while (head != NULL) {
-            nums.push_back(head->val);
-            head = head->next;
-        }
+        ListNode* list = new ListNode(-1);
+        ListNode* prev = list;
+        ListNode* cur = head;
         
-        int N = nums.size();
-        
-        vector<int> res(N, 0);
-        
-        nge(nums, N, res);
-        
-        ListNode* ll = new ListNode(0);
-        head = ll;
-        
-        for (int i = 0; i < N; i++) {
-            if (res[i] == -1) {
-                ll->next = new ListNode(nums[i]);
-                ll = ll->next;
+        while (cur != nullptr) {
+            if (cur->val >= prev->val) {
+                prev->next = new ListNode(cur->val);
+                prev = prev->next;
+                cur = cur->next;
+            } else {
+                cur = cur->next;
             }
         }
         
-        return head->next;
+        return reverse(list->next);
     }
 };
+
+// 5 2 13 3 8
+// 8 3 13 2 5
+// -1 -> 8 -> 13
+// 13 -> 8
