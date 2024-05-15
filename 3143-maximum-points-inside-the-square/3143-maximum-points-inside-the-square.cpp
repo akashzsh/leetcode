@@ -2,7 +2,6 @@ class Solution {
 public:
     bool is_possible(int len, vector<vector<int>>& points, string& s, int& res, int& N) {
         unordered_set<char> set;
-        // cout << "CALL " << len << "\n";
         int right_up = len / 2, left_down = -len / 2;
         
         for (int i = 0; i < N; i++) {
@@ -13,9 +12,6 @@ public:
                 set.insert(s[i]);
             }
         }
-        
-        // for (auto it : set) cout << it << " ";
-        // cout << "\n";
         
         res = set.size();
         return true;
