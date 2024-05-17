@@ -8,12 +8,11 @@ public:
         int res = 0;
         
         for (int i = 0, n = nums.size(), cur = 0; i < n; i++) {
+            
             cur = cur + nums[i];
             
-            int x = cur - k;
-            
-            if (mpp.find(x) != mpp.end()) {
-                res = res + mpp[x];
+            if (mpp.find(cur - k) != mpp.end()) {
+                res = res + mpp[cur - k];
             }
             
             mpp[cur]++;
