@@ -1,5 +1,13 @@
 class Solution {
 public:
+    void reverse(vector<int>& nums, int start, int end) {
+        while (start < end) {
+            swap(nums[start], nums[end]);
+            start++;
+            end--;
+        }
+    }
+    
     void rotate(vector<vector<int>>& matrix) {
         int n = matrix.size();
         
@@ -10,7 +18,7 @@ public:
         }
         
         for (int i = 0; i < n; i++) {
-            reverse(matrix[i].begin(), matrix[i].end());
+            reverse(matrix[i], 0, n - 1);
         }
     }
 };
