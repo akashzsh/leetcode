@@ -35,3 +35,10 @@ public:
         return res;
     }
 };
+
+static const auto __optimize__ = []() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
+    return 0;
+}();
