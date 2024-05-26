@@ -4,6 +4,49 @@
 * created: 26-05-2024
 */
 
+
+class Solution {
+public:    
+    int checkRecord(int n) {
+        int M = int(1e9) + 7;
+        
+        vector<vector<int>> prev(2, vector<int>(3));
+        vector<vector<int>> cur(2, vector<int>(3));
+        
+        // base case
+        for (int ab = 0; ab < 2; ab++) {
+            for (int cl = 0; cl < 3; cl++) {
+                prev[ab][cl] = 1;
+            }
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            for (int ab = 1; ab >= 0; ab--) {
+                for (int cl = 2; cl >= 0; cl--) {
+                    int res = 0;
+                    res = (res % M + prev[ab][0] % M) % M;
+                    if (ab + 1 < 2) {
+                        res = (res % M + prev[ab + 1][0] % M) % M;
+                    }
+                    if (cl + 1 < 3) {
+                        res = (res % M + prev[ab][cl + 1] % M) % M;
+                    }
+
+                    cur[ab][cl] = res % M;
+                }
+            }
+            prev = cur;
+        }
+        
+        return prev[0][0];
+    }
+};
+
+
+/*
+
+TABULATION
+
 class Solution {
 public:    
     int checkRecord(int n) {
@@ -39,7 +82,12 @@ public:
     }
 };
 
+*/
+
 /*
+
+MEMOIZATION
+
 class Solution {
 public:
     int f(int n, int ab, int cl, int& M, vector<vector<vector<int>>>& dp) {
