@@ -1,18 +1,5 @@
 class Solution {
-public:
-    ListNode* reverseLL(ListNode* cur) {
-        ListNode* prev = nullptr;
-        
-        while (cur != nullptr) {
-            ListNode* front = cur->next;
-            cur->next = prev;
-            prev = cur;
-            cur = front;
-        }
-        
-        return prev;
-    }
-    
+public:    
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode* res = new ListNode(0);
         ListNode* p = res;
