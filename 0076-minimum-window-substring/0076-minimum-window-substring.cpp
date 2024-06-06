@@ -7,7 +7,7 @@ public:
             return "";
         }
         
-        vector<int> ht(128);
+        vector<int> ht(123);
         
         for (auto& it : t) {
             ht[it]++;
