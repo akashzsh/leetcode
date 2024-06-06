@@ -7,19 +7,19 @@ public:
             return "";
         }
         
-        unordered_map<int, int> mp;
+        vector<int> ht(128);
         
         for (auto& it : t) {
-            mp[it]++;
+            ht[it]++;
         }
         
         int start = -1, min_len = INT_MAX;
         
         for (int l = 0, r = 0, cnt = 0; r < S; r++) {
-            if (mp[s[r]] > 0) {
+            if (ht[s[r]] > 0) {
                 cnt++;
             }
-            mp[s[r]]--;
+            ht[s[r]]--;
             
             while (cnt == T) {
                 int cur_window = r - l + 1;
@@ -27,8 +27,8 @@ public:
                     start = l;
                     min_len = cur_window;
                 }
-                mp[s[l]]++;
-                if (mp[s[l]] > 0) {
+                ht[s[l]]++;
+                if (ht[s[l]] > 0) {
                     cnt--;
                 }
                 l++;
