@@ -17,6 +17,6 @@ public:
             st.push(k);
         }
         
-        return int(res);
+        return int(res);    
     }
 };
