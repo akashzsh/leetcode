@@ -1,10 +1,6 @@
 class Solution {
 public:
     int subarray_lte_k(vector<int>& nums, int k) {
-        if (k < 0) {
-            return 0;
-        }
-        
         int cnt = 0;
         
         for (int l = 0, r = 0, n = nums.size(), odd = 0; r < n; r++) {
