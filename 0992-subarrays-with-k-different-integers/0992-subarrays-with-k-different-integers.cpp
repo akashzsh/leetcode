@@ -4,16 +4,12 @@ public:
         unordered_map<int, int> mp;
         int cnt = 0;
         
-        for (int l = 0, r = 0, n = nums.size(), distinct = 0; r < n; r++) {
-            if (mp.find(nums[r]) == mp.end()) {
-                distinct++;
-            }
+        for (int l = 0, r = 0, n = nums.size(); r < n; r++) {
             mp[nums[r]]++;
             
-            while (distinct > k) {
+            while (mp.size() > k) {
                 mp[nums[l]]--;
                 if (mp[nums[l]] == 0) {
-                    distinct--;
                     mp.erase(nums[l]);
                 }
                 l++;
