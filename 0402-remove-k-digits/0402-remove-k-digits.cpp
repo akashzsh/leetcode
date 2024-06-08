@@ -1,29 +1,30 @@
 class Solution {
 public:
-    string removeKdigits(string s, int k) {
-        int n = s.size(), i = 0;
+    string removeKdigits(string num, int k) {
+        int n = num.size();
         
         if (n == k) {
             return "0";
         }
         
-        stack<char> st;
+        int i = 0;
+        stack<int> st;
         
         while (i < n && k > 0) {
-            if (st.empty() || st.top() <= s[i]) {
-                st.push(s[i]);
+            if (st.empty() || st.top() <= num[i]) {
+                st.push(num[i]);
             } else {
-                while (!st.empty() && k > 0 && st.top() > s[i]) {
+                while (!st.empty() && k > 0 && st.top() > num[i]) {
                     k--;
                     st.pop();
                 }
-                st.push(s[i]);
+                st.push(num[i]);
             }
             i++;
         }
         
         while (i < n) {
-            st.push(s[i]);
+            st.push(num[i]);
             i++;
         }
         
@@ -32,20 +33,20 @@ public:
             k--;
         }
         
-        int x = st.size();
-        
-        vector<int> res(x);
+        k = st.size();
+        vector<int> vt(k);
         
         while (!st.empty()) {
-            res[--x] = st.top(); st.pop();
+            vt[--k] = st.top(); st.pop();
         }
         
         int y = 0;
-        while (y < res.size() && res[y] == '0') {
+        while (y < vt.size() && vt[y] == '0') {
             y++;
         }
         
-        string result(res.begin() + y, res.end());
-        return result == "" ? "0" : result;
+        string s(vt.begin() + y, vt.end());
+        
+        return s == "" ? "0" : s;
     }
 };
