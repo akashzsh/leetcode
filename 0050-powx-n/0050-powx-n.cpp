@@ -1,30 +1,28 @@
 class Solution {
 public:
+    typedef long long ll;
+    
     double myPow(double x, int n) {
-        bool is_positive = true;
-        double res = 1;
-        
-        long long N = n;
+        bool is_neg = false;
+        ll nn = n;
         
         if (n < 0) {
-            is_positive = false;
-            N = -N;
+            is_neg = true;
+            nn = -nn;
         }
         
-        while (N > 0) {
-            if (N & 1) {
+        double res = 1;
+        
+        while (nn > 0) {
+            if (nn & 1) {
                 res = res * x;
-                N--;
+                nn--;
             } else {
                 x = x * x;
-                N >>= 1;
+                nn >>= 1;
             }
         }
         
-        if (is_positive) {
-            return res;
-        } else {
-            return 1 / res;
-        }
+        return is_neg ? 1 / res : res;
     }
 };
