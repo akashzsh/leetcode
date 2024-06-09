@@ -1,12 +1,8 @@
 class Solution {
 public:
-    void reverse(vector<int>& nums, int start, int end) {
-        while (start < end) {
-            int t = nums[start];
-            nums[start] = nums[end];
-            nums[end] = t;
-            start++;
-            end--;
+    void reversing(vector<int>& nums, int l, int r) {
+        while (l < r) {
+            swap(nums[l++], nums[r--]);
         }
     }
     
@@ -15,8 +11,8 @@ public:
         
         k = k % n;
         
-        reverse(nums, 0, n - 1);
-        reverse(nums, 0, k - 1);
-        reverse(nums, k, n - 1);
+        reversing(nums, 0, n - k - 1);
+        reversing(nums, n - k, n - 1);
+        reversing(nums, 0, n - 1);
     }
 };
