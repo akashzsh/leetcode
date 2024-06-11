@@ -7,35 +7,33 @@ public:
             return false;
         }
         
-        unordered_map<int, int> mp;
         sort(hand.begin(), hand.end());
         
-        for (int i = 0; i < n; i++) {
-            mp[hand[i]]++;
+        unordered_map<int, int> mp;
+        
+        for (int& j : hand) {
+            mp[j]++;
         }
         
-        int group = 0;
+        int groups = 0;
         
-        for (int i = 0; i < n; i++) {
-            int cur = hand[i];
-            
+        for (int& cur : hand) {
             if (mp.find(cur) == mp.end()) {
                 continue;
             }
             
-            for (int j = cur; j < cur + groupSize; j++) {
-                if (mp.find(j) == mp.end()) {
+            for (int k = cur; k < cur + groupSize; k++) {
+                if (mp.find(k) == mp.end()) {
                     return false;
-                }
-                mp[j]--;
-                if (mp[j] == 0) {
-                    mp.erase(j);
+                } else {
+                    mp[k]--;
+                    if (mp[k] == 0) mp.erase(k);
                 }
             }
             
-            group++;
+            groups++;
         }
         
-        return group == (n / groupSize);
+        return groups == (n / groupSize);
     }
 };
